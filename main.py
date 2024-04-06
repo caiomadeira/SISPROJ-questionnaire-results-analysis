@@ -50,13 +50,16 @@ def plot(indices: list, save_or_show: str=None):
                 rm_duplicated_item_by_key(y=y, key='Calculadora de notas')
                 rm_duplicated_item_by_key(y=y, key='Microhorário mais detalhado')
                 y[0] = y[0] + ', provas, faltas, etc.'
-
                         
             for item in range(0, len(y)):
                 item_ocurrences.append(check_item_equality(y, x, item))
                 
             x = item_ocurrences
-            
+            if index[0] == 8:
+                if y[1] == ' Mais objetividade e centralização das informações':
+                    print("yes")
+                    y[1] = 'Objetividade e centralização'
+                    
             print("pie y: ", y, "size y: ", len(y))
             print("pie x: ", x, "size x: ", len(x))
             make_piechart(ax=ax, column_index=index[0], x=x, y=y, indice_subplot=index[1])
@@ -169,10 +172,10 @@ def make_piechart(ax: any, column_index: int, x: list, y: list, indice_subplot: 
 
 if __name__ == "__main__":
     # About projet
-    #plot(indices=[[5, 0], [7, 1]])
-    #plot(indices=[[6, 0], [8, 1]])
-    #plot(indices=[[9, 0], [9, 1]])
+    #plot(indices=[[5, 0], [7, 1]], save_or_show='save')
+    plot(indices=[[6, 0], [8, 1]], save_or_show='save')
+    #plot(indices=[[9, 0], [9, 1]], save_or_show='save')
     
     # About user
-    #plot(indices=[[2, 0], [3, 1]])
-    plot(indices=[[4, 0], [4, 1]])
+    #plot(indices=[[2, 0], [3, 1]], save_or_show='save')
+    #plot(indices=[[4, 0], [4, 1]], save_or_show='save')
