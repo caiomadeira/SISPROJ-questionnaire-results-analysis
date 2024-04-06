@@ -15,7 +15,16 @@ l10n: dict = {
     priorizadas inicialmente no ciclo de desenvolvimento.\n\n",
     
     "column8_description": "Funcionalidades iniciais discutidas durante o primeiro brainstorm da equipe e \n\
-    colocadas no questionario para uma ideia inicial do primeiro MVP.\n\n"
+    colocadas no questionario para uma ideia inicial do primeiro MVP.\n\n",
+    
+    'column2_description': '',
+    'column3_description': 'Dados sobre alunos bolsistas sao relevantes em um contexto de escolha e prioridade de features,\n'\
+        'visto que, alunos e suas caracteristicas socioeconomicas implicam em necessidades diferentes.',
+    'column4_description': 'Distincao entre calouros e veteranos e relevantes em um contexto de escolha e prioridade de features,\n'\
+        'visto que, alunos e suas momento de evolucao em um determinado curso implicam em necessidades diferentes.',
+    
+    "max_yes_count": "Max 'Sim' count",
+    "max_no_count": "Max 'Não' count",
 }
 
 color: dict = {

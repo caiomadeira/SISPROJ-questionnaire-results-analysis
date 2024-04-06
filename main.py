@@ -36,7 +36,7 @@ def plot(indices: list, save_or_show: str=None):
             print("histogram x: ", x, "size x: ", len(x))
             make_histogram(ax=ax, column_index=index[0], x=x, y=y, indice_subplot=index[1], fig=fig)
             
-        elif (index[0] == 7 or index[0] == 8):
+        elif (index[0] == 7 or index[0] == 8 or index[0] == 2 or index[0] == 3 or index[0] == 4):
             x = []; y = [] 
             item_ocurrences = []
             split_all_items(x=x, alias=",", index=index[0], expections=[' etc;', ' faltas', ' provas'])
@@ -61,28 +61,57 @@ def plot(indices: list, save_or_show: str=None):
             print("pie x: ", x, "size x: ", len(x))
             make_piechart(ax=ax, column_index=index[0], x=x, y=y, indice_subplot=index[1])
             
+        elif (index[0] == 9):
+            x = []; y = [] 
+                
+            x = unique_items(column_items(index=index[0]))
+            x[1] = "Não"
+            y = [count_ocurrences(column_items(index=index[0]), 'Sim'), count_ocurrences(column_items(index=index[0]), 'Não, prefiro usar no navegador mesmo')]
+            
+            print("bar y: ", y, "size y: ", len(y))
+            print("bar x: ", x, "size x: ", len(x))
+            make_bar(ax=ax, column_index=index[0], x=x, y=y, indice_subplot=index[1], orientation='h')
+            
     plt.tight_layout()
     if save_or_show == 'save':
         plt.savefig(f"output/plot_{str(fig)}_{indices[0][0]}_{indices[1][0]}_{datetime.datetime.today().date()}.png")
     else:
         plt.show()
     
-def make_bar(ax: any, column_index: int, x: list, y: list, indice_subplot: int):
+def make_bar(ax: any, column_index: int, x: list, y: list, indice_subplot: int, orientation: str='vertical'):
     title = df.columns[column_index]
-    barplot = ax[indice_subplot].bar(np.arange(len(x)), x, color=(color_chart['color1'], 
-                                                             color_chart['color2'], 
-                                                             color_chart['color3'],
-                                                             color_chart['color4'], 
-                                                             color_chart['color5'], 
-                                                             color_chart['color6']), 
-                                                             ec="black")
-    
+    if orientation == 'h': # horizontal bar chart
+        ax[indice_subplot].barh(x, y, height=0.6,color=(color_chart['color1'], 
+                                            color_chart['color2'], 
+                                            color_chart['color3'],
+                                            color_chart['color4'], 
+                                            color_chart['color5'], 
+                                            color_chart['color6']), 
+                                            ec="black")
+        ax[indice_subplot].axvline(y[0], color='r', label=l10n['max_yes_count'], linewidth=0.6)
+        ax[indice_subplot].axvline(y[1], color='b', label=l10n['max_no_count'], linewidth=0.6)
+
+        inds=range(len(column_items(index=column_index)))
+        ax[indice_subplot].grid(axis='y', color=color['soft_black'], linewidth = 0.3)
+        # ax[indice_subplot].set_axisbelow(True)
+        ax[indice_subplot].set_xticks([ind+0.0 for ind in inds])
+        ax[indice_subplot].set_xlabel(l10n['votes_quantity'], fontdict=font['label'])
+    else:
+        barplot = ax[indice_subplot].bar(np.arange(len(x)), y, color=(color_chart['color1'], 
+                                                                        color_chart['color2'], 
+                                                                        color_chart['color3'],
+                                                                        color_chart['color4'], 
+                                                                        color_chart['color5'], 
+                                                                        color_chart['color6']), 
+                                                                        ec="black")
+        ax[indice_subplot].set_xlabel(l10n['values_ocurrences'], fontdict=font['label'])
+        ax[indice_subplot].set_ylabel(l10n['votes_quantity'], fontdict=font['label'])
+        ax[indice_subplot].bar_label(barplot, labels=x, label_type="edge", padding=3, fontsize=12)
+
     ax[indice_subplot].set_title(title, fontdict=font['title'])
     ax[indice_subplot].legend()
     ax[indice_subplot].set_facecolor(color['background2'])
-    ax[indice_subplot].bar_label(barplot, labels=x, label_type="edge", padding=3, fontsize=12)
-    ax[indice_subplot].set_xlabel(l10n['values_ocurrences'], fontdict=font['label'])
-    ax[indice_subplot].set_ylabel(l10n['votes_quantity'], fontdict=font['label'])
+
     
 def make_histogram(ax: any, column_index: int, x: list, y: list, indice_subplot: list, fig=None, linebreakers=None):
     if linebreakers:
@@ -128,6 +157,10 @@ def make_piechart(ax: any, column_index: int, x: list, y: list, indice_subplot: 
                 explode = (0, 0, 0, 0.1, 0, 0, 0) # tuples are immutable
             elif column_index == 8:
                 explode = (0.1, 0, 0, 0)
+            elif column_index == 2 or column_index == 4:
+                explode = (0.1, 0, 0)
+            elif column_index == 3:
+                explode = (0.1, 0)
 
     ax[indice_subplot].set_title(title, fontdict=font['title'])
     ax[indice_subplot].pie(x, labels=y, autopct="%.2f%%", shadow=False, colors=colors_pie, explode=explode)
@@ -138,6 +171,8 @@ if __name__ == "__main__":
     # About projet
     #plot(indices=[[5, 0], [7, 1]])
     #plot(indices=[[6, 0], [8, 1]])
+    #plot(indices=[[9, 0], [9, 1]])
     
     # About user
-    plot()
+    #plot(indices=[[2, 0], [3, 1]])
+    plot(indices=[[4, 0], [4, 1]])

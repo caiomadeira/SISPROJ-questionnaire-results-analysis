@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 df = pd.read_csv("data/sau_respostas_form.csv")
 
@@ -40,12 +41,13 @@ def calculate_percentage_of_value(major: int, minor: int):
     
 def split_all_items(x: list, alias: str, index: int, expections: list):
     for subitems in column_items(index):
-        subitems = subitems.split(alias)
-        for item in subitems:
-            if item not in expections:
-                x.append(item)
-            else:
-                pass
+        if type(subitems) != float:
+            subitems = subitems.split(alias)
+            for item in subitems:
+                if item not in expections:
+                    x.append(item)
+                else:
+                    pass
 def rm_leading_whitespace(y: list):
     items_to_rm = []
     for item in y:
